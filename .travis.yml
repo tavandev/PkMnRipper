@@ -4,22 +4,34 @@ language: generic
 cache:
   directories:
   - $HOME/.stack
-  
-addons:
-  apt:
-    packages:
-      - libgmp-dev
+
+matrix:
+  include:
+  - env: BUILD=stack ARGS="--resolver lts-10.4"
+    compiler: ": #stack 8.2.2"
+    addons: {apt: {packages: [libgmp-dev]}}
+
+  - env: BUILD=stack ARGS="--resolver lts-10.4"
+    compiler: ": #stack 8.2.2 osx"
+    os: osx
 
 before_install:
-- mkdir -p ~/.local/bin
-- export PATH=$HOME/.local/bin:$PATH
-- travis_retry curl -L https://www.stackage.org/stack/linux-x86_64 | tar xz --wildcards --strip-components=1 -C ~/.local/bin '*/stack'
+  - unset CC
+  - mkdir -p ~/.local/bin
+  - export PATH=$HOME/.local/bin:$PATH
+  - |
+    if [ `uname` = "Darwin" ]
+    then
+      travis_retry curl --insecure -L https://www.stackage.org/stack/osx-x86_64 | tar xz --strip-components=1 --include '*/stack' -C ~/.local/bin
+    else
+      travis_retry curl -L https://www.stackage.org/stack/linux-x86_64 | tar xz --wildcards --strip-components=1 -C ~/.local/bin '*/stack'
+    fi
 
 install:
-- stack --no-terminal --install-ghc test --only-dependencies
+  - stack --no-terminal --install-ghc $ARGS test --bench --only-dependencies
 
 script:
-- stack --no-terminal test --haddock --no-haddock-deps
+  - stack --no-terminal $ARGS test --bench --no-run-benchmarks --haddock --no-haddock-deps
 
 notifications:
   slack: dyti234:6KAy6KgKN7R8TJbsIxsgukNF
