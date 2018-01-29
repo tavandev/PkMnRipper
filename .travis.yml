@@ -22,4 +22,4 @@ script:
 - stack --no-terminal test --haddock --no-haddock-deps
 
 notifications:
-slack: dyti234:6KAy6KgKN7R8TJbsIxsgukNF
+  slack: dyti234:6KAy6KgKN7R8TJbsIxsgukNF
