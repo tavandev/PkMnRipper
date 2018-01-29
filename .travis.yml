@@ -7,12 +7,10 @@ cache:
 
 matrix:
   include:
-  - env: BUILD=stack ARGS="--resolver lts-10.4"
-    compiler: ": #stack 8.2.2"
+  - compiler: "#Linux"
     addons: {apt: {packages: [libgmp-dev]}}
 
-  - env: BUILD=stack ARGS="--resolver lts-10.4"
-    compiler: ": #stack 8.2.2 osx"
+  - compiler: "#macOS"
     os: osx
 
 before_install:
@@ -28,10 +26,10 @@ before_install:
     fi
 
 install:
-  - stack --no-terminal --install-ghc $ARGS test --bench --only-dependencies
+  - stack --no-terminal --install-ghc test --only-dependencies
 
 script:
-  - stack --no-terminal $ARGS test --bench --no-run-benchmarks --haddock --no-haddock-deps
+  - stack --no-terminal test --bench --no-run-benchmarks --haddock --no-haddock-deps
 
 notifications:
   slack: dyti234:6KAy6KgKN7R8TJbsIxsgukNF
