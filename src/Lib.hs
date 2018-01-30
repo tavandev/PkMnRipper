@@ -96,32 +96,3 @@ toPokemons s = toPkmn s <$> zip (sortedPokemon s) (pokemonBaseStats s)
               (fromIntegral (b !! 6) & (types src !!))
               (fromIntegral (b !! 7) & (types src !!))
       in Pokemon idx int name (b !! 1) (b !! 2) (b !! 3) (b !! 4) (b !! 5) t1 t2
-
-data SpriteData = SpriteData
-  { ptr    :: Word32
-  , height :: Word8
-  , width  :: Word8
-  } deriving (Show)
-
-spriteOffset :: Int -> B.ByteString -> SpriteData
-spriteOffset idx s =
-  let (w, h) = size idx s
-  in SpriteData (shiftL (getBank idx) 14 + ptr idx s .&. 0x3FFF) w h
-  where
-    getBank a
-        | a < 0x1F = 0x9
-        | a < 0x4A = 0xA
-        | a < 0x74 = 0xB
-        | a < 0x99 = 0xC
-        | otherwise = 0xD
-
-    ptr n src =
-      pokemonBaseStats src 
-          & (!! n) 
-          & ((!! 0xB) &&& (!! 0xC)) 
-          & (\(low, high) -> shiftL (fromIntegral high) 8 .|. fromIntegral low)
-    size n src =
-      pokemonBaseStats src & (!! n) & (!! 0xA) &
-      (\b -> (shiftR (fromIntegral b) 4 * 8, fromIntegral b .&. 0xF * 8))
-
-hex n = "0x" ++ showHex n ""
