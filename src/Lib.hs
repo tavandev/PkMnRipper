@@ -17,7 +17,6 @@ import           Data.Function
 import           Data.List
 import           Data.Monoid
 import           Data.Word
-import           Numeric
 import           Utils
 
 data Pokemon = Pokemon
@@ -73,6 +72,7 @@ types s = toTypeArray s <$> typePointers s
       slice 0x27D63 0x36 >>> B.unpack >>> chunks 2 >>> fmap processP
     processP (low:high:_) =
       shiftL 2 16 .|. shiftL (fromIntegral high) 8 .|. fromIntegral low
+    processP _ = 0
     toTypeArray source offset =
       B.splitAt offset source & \(_, d) ->
         B.takeWhile (/= 0x50) d & B.unpack & fmap toChar & capitalized
