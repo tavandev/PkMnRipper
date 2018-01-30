@@ -30,13 +30,3 @@ script:
 
 notifications:
   slack: dyti234:6KAy6KgKN7R8TJbsIxsgukNF
-
-deploy:
-  provider: releases
-  api_key:
-    secure: V/n7nzxojSp/vvDQgh7v29SWb363IMR0MHBzBmAsLS54fVM7AdBiK1cWLoIUTzD3WIfKKti5Oh8Y2qC3iAE+HQ+CYKzx6CLucbG1jOHrSKpLDVL5tDwqPmxVpjX1+OiKjsgC3/oyfQKbCyYnPtly5jjXblPg24+VDLddNW9fUdjDP1u6COa+KUt1KL1tbNu2sOzAwm6W+PdJ5KAQr6V5HNrTz++bxy0MZ2TqfMtEnCp1hQW3aDedwZk+cRMeEU3FSCky+7/ytudshQ0SmjiIlGYq985Fi3QNSrGR9bMa4F/Ehs0Ek9b+pAGoXbmRaDmz6QIyeCgfn2sT+HDMEXA0fb9ybMKMrAtXAZLJSX/rqOq85tgjeJIYa73F3ARCNVoaf/LKGwdbPIm8pf5r4qmjJHfzvNNPAgeO2/FMqKT/Qoe4IZwaZ/4IjW4WRGjDoACvuwd2eGXqf4qdONLG+puRn6/0aUv8dw33UrJIzV4k8oBe7d28yxFBtmGtx91dHssu+agb8wow2VFgt5js+XOYwjK5OoATsuJi2arvzV+kWkUN71bDJ0P8DfLTgNARCeJHp53sSh1GMYV91csEY3SVP3/BcywfEOg856RRQPlDOnFQ+9tp/VJjzEtzbVmalusEGyJs421eDvaZWNxuh4rIXyF1hmAreALkb60QXvn94Sc=
-  skip_cleanup: true
-  file_glob: true
-  file: "$(stack path --local-install-root)/bin/PkMnRipper-exe"
-  on:
-    repo: tavandev/PkMnRipper
